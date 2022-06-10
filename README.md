@@ -1,5 +1,12 @@
 Udacity Udagram Image Filter Project for Cloud Developer nanodegree.
 
+Github Link:
+https://github.com/Adewale-D-A/Udagram-Image-Filter-Project-2
+
+Endpoint for Running EB instance: 
+http://udagram-project2-cloud-dev-nanodegree.us-east-1.elasticbeanstalk.com/
+
+BRIEF DESCRIPTION:
 This project was deploy on AWS Elasticbeanstalk with the help of EB CLI and IAM Policies. 
 Image URL is passed as a query paramter into the url and the path of the filtered .jpg file is returned.
 
