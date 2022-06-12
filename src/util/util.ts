@@ -27,17 +27,8 @@ export async function filterImageFromURL(inputURL: string): Promise<string> {
         .write(__dirname + outpath, (img) => {
           resolve(__dirname + outpath);
         });
-      IsuesArray[0].success = `Output path: ${outpath}`;
-      const message = IsuesArray[0].success;
-      console.log(message);
-      return message;
     } catch (error) {
-      IsuesArray[0].failed = "There is a problem with the Url";
-      const messageFail = IsuesArray[0].failed;
-      console.log(messageFail);
-      // reject(error);
-      return messageFail;
-      // reject(error);
+      reject(error);
     }
   });
 }

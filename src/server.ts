@@ -13,19 +13,34 @@ import { filterImageFromURL, deleteLocalFiles } from "./util/util";
   app.use(bodyParser.json());
 
   // @TODO1 IMPLEMENT A RESTFUL ENDPOINT
-  app.get("/filteredimage", (req, res) => {
-    const imgUrl = req.query.image_url;
-    async function PrepImg() {
-      let imageresult = await filterImageFromURL(imgUrl);
-      console.log(imageresult);
+  app.get(
+    "/filteredimage",
+    (request: express.Request, response: express.Response) => {
+      const imgUrl: string = request.query.image_url;
+      if (!imgUrl) {
+        return response
+          .status(400)
+          .send("Please query with 'image_url', followed by the URL");
+      }
+      async function PrepImg() {
+        try {
+          let imageresult: string = await filterImageFromURL(imgUrl);
+          console.log(imageresult);
+          console.log(`Succes ${imageresult}`);
+          return response.status(200).sendFile(imageresult, () => {
+            deleteLocalFiles([imageresult]);
+          });
+        } catch (error) {
+          return response
+            .status(422)
+            .send("Unprocessable URL, Url is probably broken");
+        }
+      }
 
-      // deleteLocalFiles({ imageresult });
-      return res.status(200).send({ imageresult });
+      PrepImg();
     }
-    // console.log(PrepImg());
+  );
 
-    PrepImg();
-  });
   // GET /filteredimage?image_url={{URL}}
   // endpoint to filter an image from a public url.
   // IT SHOULD
@@ -45,8 +60,8 @@ import { filterImageFromURL, deleteLocalFiles } from "./util/util";
 
   // Root Endpoint
   // Displays a simple message to the user
-  app.get("/", async (req, res) => {
-    res.send("try GET /filteredimage?image_url={{}}");
+  app.get("/", async (request, response) => {
+    response.send("try GET /filteredimage?image_url={{}}");
   });
 
   // Start the Server
